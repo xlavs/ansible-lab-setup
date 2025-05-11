@@ -1,0 +1,17 @@
+﻿---
+
+# Verify: ansible-playbook configure-server-set.yaml -u root -C -D
+# Apply:  ansible-playbook configure-server-set.yaml -u root
+
+- hosts: all
+  gather_facts: false
+
+#  vars:
+
+  roles:
+    - configure_admin_user
+    - configure_ntp_crony
+    - configure_zabbix_agent2
+
+  tasks:
+    # placeholder for custom, additional tasks

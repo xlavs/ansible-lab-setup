@@ -1,0 +1,22 @@
+[all]
+hostname1
+hostname2
+hostname3
+hostname4
+hostname5
+
+[site-a]
+hostname1
+hostname1
+
+[site-z]
+hostname2
+hostname3
+hostname5
+
+[lxd-hosts]
+site-a-host ansible_user=ubuntu
+site-z-host ansible_user=ubuntu
+
+[zabbix]
+zabbix-node ansible_user=root ansible_python_interpreter=/usr/local/bin/python3.11

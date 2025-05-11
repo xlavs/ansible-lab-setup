@@ -1,0 +1,14 @@
+# Run this with: 
+# ansible-playbook playbooks\ansible-ping-lab.yaml
+
+---
+
+- hosts: 
+    - zabbix-node
+    - site-a-host
+    - site-z-host
+
+  gather_facts: false
+
+  tasks:
+    - ping:

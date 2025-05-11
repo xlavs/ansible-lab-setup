@@ -1,0 +1,17 @@
+# Local notes
+homework.md
+questions.md
+todo.md
+tmp/
+docs-site/
+# Large files
+*.zip
+*.iso
+*.tar
+*.tgz
+
+# config files
+project-vars.env.cmd
+project-vars.env.yaml
+multipass-hosts.yaml
+hosts

@@ -1,0 +1,20 @@
+# config\multipass-ansible-runner.yaml
+
+package_update: true
+packages:
+  - curl
+  - sudo
+  - git
+
+write_files:
+- content: |
+    Install nix: 
+    curl -L https://nixos.org/nix/install | sh
+
+    Then:
+    cd /workspace
+    nix-shell config/nix/shell.nix
+  path: /etc/motd
+
+runcmd:
+  - [ mkdir, -p, /workspace ]

@@ -1,0 +1,13 @@
+﻿# run this with:
+# wsl -d NixOS nix-shell  ~/ansible-shell/shell.nix --run "ansible-playbook ansible-ping.yaml"
+
+---
+
+- name: "ping local connection"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks: 
+    - name: ping
+      ansible.builtin.ping:

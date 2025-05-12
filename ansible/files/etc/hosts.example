@@ -1,0 +1,5 @@
+# Update and add these hosts to ansible-runner /etc/hosts
+
+172.30.4.175 zabbix-node
+172.30.14.143 site-a-host
+172.30.14.102 site-z-host

@@ -1,0 +1,19 @@
+﻿---
+
+# ansible/inventory/group_vars/lxd_hosts.yaml
+
+lxd_profiles:
+  - name: lan-access
+    description: "Profile for containers with direct LAN access"
+    config: {}
+    devices:
+      eth0:
+        name: br0
+        nictype: bridge
+        parent: lxdbr0
+        type: nic
+      root:
+        path: /
+        pool: default
+        type: disk
+

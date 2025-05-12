@@ -1,0 +1,19 @@
+﻿---
+
+- name: Define LXD profiles
+  hosts:
+    - site-a-host
+    - site-z-host
+  become: true
+  vars:
+    lxd_profiles: "{{ hostvars[inventory_hostname]['lxd_profiles'] | default([]) }}"
+
+  tasks:
+    - name: Ensure LXD profile(s) are present
+      community.general.lxd_profile:
+        name: "{{ item.name }}"
+        state: present
+        description: "{{ item.description | default(omit) }}"
+        config: "{{ item.config | default(omit) }}"
+        devices: "{{ item.devices | default(omit) }}"
+      loop: "{{ lxd_profiles }}"

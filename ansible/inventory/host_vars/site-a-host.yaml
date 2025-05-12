@@ -1,0 +1,5 @@
+﻿lxd_containers:
+  - name: hostname1
+    image: 24.04
+    profiles: [default]
+    state: started

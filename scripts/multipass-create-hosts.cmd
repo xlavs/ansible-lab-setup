@@ -5,7 +5,7 @@ REM two hosts.
 REM -----------------------------------------------------------------------------
 
 REM Create Site-A
-multipass launch --name site-a-host --cpus 2 --memory 4096M --disk 20G
+multipass launch 24.04 --name site-a-host --cpus 2 --memory 2G --disk 20G --cloud-init config\multipass-host.yaml
 
 REM Create Site-Z
-multipass launch --name site-z-host --cpus 2 --memory 4096M --disk 20G
+multipass launch 24.04 --name site-b-host --cpus 2 --memory 2G --disk 20G --cloud-init config\multipass-host.yaml

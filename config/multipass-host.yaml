@@ -1,0 +1,4 @@
+﻿# config/multipass-host.yaml
+
+runcmd:
+  - echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFy/uG6GOFYpjXFslP3TjM0CmxL1dbM0DPmJRwkvPKIF ubuntu@ansible-runner >> /home/ubuntu/.ssh/authorized_keys

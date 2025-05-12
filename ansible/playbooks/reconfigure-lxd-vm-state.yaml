@@ -1,0 +1,24 @@
+﻿---
+- name: Create LXD containers on each site
+  hosts:
+    - site-a-host
+    - site-z-host
+  become: true
+  vars:
+    lxd_container_profile: default
+
+  tasks:
+    - name: Create defined containers
+      community.general.lxd_container:
+        name: "{{ item.name }}"
+        state: "{{ item.state | default('started') }}"
+        source:
+          type: image
+          mode: pull
+          server: https://cloud-images.ubuntu.com/releases/
+          protocol: simplestreams
+          alias: "{{ item.image }}"
+        profiles: "{{ item.profiles | default([lxd_container_profile]) }}"
+        wait_for_ipv4_addresses: true
+        timeout: 600
+      loop: "{{ lxd_containers }}"

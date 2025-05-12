@@ -1,0 +1,43 @@
+﻿---
+- name: Update /etc/hosts locally with Multipass host IPs
+  hosts: localhost
+  connection: local
+  become: true
+
+  vars_files:
+    - ../config/project-vars.env.yaml
+    - ../config/var/multipass-hosts.yaml
+
+  tasks:
+
+    - name: Flatten multipass hosts into list of hostname + first IP
+      set_fact:
+        hosts_entries: >-
+          {{
+            (hosts_entries | default([])) +
+            [ item.key + ' ' + item.value[0].ipv4[0] ]
+          }}
+      loop: "{{ vars | dict2items }}"
+      when:
+        - item.value is iterable
+        - item.value | length > 0
+        - item.value[0] is mapping
+        - item.value[0].ipv4 is defined
+
+    - name: Add zabbix_server host entry
+      set_fact:
+        hosts_entries: "{{ hosts_entries + [ zabbix_server.name ~ ' ' ~ zabbix_server.ip ] }}"
+      when: zabbix_server.name is defined and zabbix_server.ip is defined
+
+    - name: Display the final hosts entries to be added
+      debug:
+        var: hosts_entries
+
+    - name: Update /etc/hosts with multipass entries
+      blockinfile:
+        path: /etc/hosts
+        block: |
+          {% for line in hosts_entries %}
+          {{ line.split()[1] }} {{ line.split()[0] }}
+          {% endfor %}
+        marker: "# {mark} ANSIBLE MULTIPASS HOSTS"

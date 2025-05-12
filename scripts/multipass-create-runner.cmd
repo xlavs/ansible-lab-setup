@@ -1,7 +1,7 @@
 @echo off
 REM ------------------------------------------------------------------------------
-REM scripts\multipass-create-runner.cmd - Start or connect to 'ansible-runner' via 
-REM Multipass. Automatically mounts project and runs nix-shell inside VM
+REM scripts\multipass-create-runner.cmd - Create 'ansible-runner' via 
+REM Multipass with project folder mounted to /workplace in the `ansible-runner`.
 REM ------------------------------------------------------------------------------
 setlocal enabledelayedexpansion
 
@@ -29,9 +29,4 @@ multipass mount "%WORKSPACE_WIN%" !VM_NAME!:!LAB_WORKSPACE! 2>nul
 
 REM Show VM status
 multipass info !VM_NAME!
-
-@REM REM Run shell in VM and launch nix-shell
-@REM echo.
-@REM echo [INFO] Connecting to !VM_NAME! and launching nix-shell...
-@REM multipass exec !VM_NAME! -- bash -c "cd !LAB_WORKSPACE! && nix-shell config/nix/shell.nix"
 

@@ -98,7 +98,7 @@ cp /workspace/ansible/ansible.cfg-example /home/ubuntu/.ansible.cfg
 chmod go= /home/ubuntu/.ansible.cfg
 ```
 
-- Try local simple playbook (local ping)
+- Try running playbook that does local Ansible ping
 
 ```
 cd /workspace/ansible
@@ -124,8 +124,8 @@ localhost                  : ok=1    changed=0    unreachable=0    failed=0    s
 > multipass list
 Name                    State             IPv4             Image
 ansible-runner          Running           172.30.7.109     Ubuntu 24.04 LTS
-site-a                  Running           172.30.14.143    Ubuntu 24.04 LTS
-site-z                  Running           172.30.14.102    Ubuntu 24.04 LTS
+site-a-host             Running           172.30.14.143    Ubuntu 24.04 LTS
+site-z-host             Running           172.30.14.102    Ubuntu 24.04 LTS
 ```
 
 - export vm settings to ansible\inventory\multipass-hosts.yaml

@@ -24,4 +24,3 @@ multipass set local.privileged-mounts=true
 ### Visual Studio Code
 
 - Site: https://code.visualstudio.com/download
-- Direct download link: https://code.visualstudio.com/sha/download?build=stable&os=win32-arm64

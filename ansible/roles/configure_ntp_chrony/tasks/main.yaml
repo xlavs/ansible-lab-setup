@@ -1,0 +1,81 @@
+﻿---
+- name: Gather active service facts
+  service_facts:
+
+- name: Detect existing NTP configuration files
+  stat:
+    path: "{{ item }}"
+  loop:
+    - /etc/ntp.conf
+    - /etc/systemd/timesyncd.conf
+    - /etc/chrony/chrony.conf
+  register: ntp_config_files
+
+- name: Slurp and collect configs to backup
+  include_tasks: slurp_one_config.yaml
+  loop: "{{ ntp_config_files.results }}"
+  loop_control:
+    loop_var: ntp_file
+  when: ntp_file.stat.exists
+
+- name: Ensure local backup directory exists
+  file:
+    path: "{{ playbook_dir }}/../config/var/reports/{{ inventory_hostname }}"
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+
+- name: Save detected NTP configs locally to Ansible runner
+  copy:
+    dest: "{{ playbook_dir }}/../config/var/reports/{{ inventory_hostname }}/{{ item.path | basename }}.backup"
+    content: "{{ item.content | b64decode }}"
+    mode: '0644'
+  loop: "{{ ntp_config_slurped }}"
+  delegate_to: localhost
+
+- name: Disable systemd-timesyncd if running
+  systemd:
+    name: systemd-timesyncd
+    enabled: false
+    state: stopped
+  when: "'systemd-timesyncd.service' in ansible_facts.services"
+
+- name: Disable and remove ntpd if installed
+  block:
+    - name: Stop ntpd
+      service:
+        name: ntp
+        state: stopped
+        enabled: no
+      ignore_errors: true
+
+    - name: Remove ntp package
+      package:
+        name: ntp
+        state: absent
+  when: "'ntp.service' in ansible_facts.services or ansible_facts.packages.ntp is defined"
+
+- name: Install chrony
+  package:
+    name: chrony
+    state: present
+
+- name: Ensure chronyd is enabled and started
+  service:
+    name: chronyd
+    enabled: yes
+    state: started
+
+- name: Configure NTP servers
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server '
+    line: "server {{ item }} iburst"
+    state: present
+    insertafter: '^#.*Use public servers from the pool'
+  loop: "{{ chrony_servers }}"
+
+- name: Restart chronyd to apply changes
+  service:
+    name: chronyd
+    state: restarted

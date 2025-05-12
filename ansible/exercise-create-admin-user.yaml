@@ -1,0 +1,8 @@
+﻿- name: Configure admin user
+  hosts:
+    - test-host1
+  become: true
+  vars_files:
+    - ../config/project-vars.env.yaml
+  roles:
+    - configure_admin_user

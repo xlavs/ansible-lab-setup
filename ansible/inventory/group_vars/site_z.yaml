@@ -1,0 +1,5 @@
+﻿---
+
+chrony_servers:
+  - time.cloudflare.com
+  - time.google.com

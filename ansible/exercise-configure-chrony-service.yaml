@@ -1,0 +1,9 @@
+- name: Configure NTP service Chrony
+  hosts:
+    - test-host1
+  become: true
+  vars_files:
+    - ../config/project-vars.env.yaml
+
+  roles:
+    - configure_ntp_chrony

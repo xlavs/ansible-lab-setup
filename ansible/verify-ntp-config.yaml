@@ -1,0 +1,11 @@
+﻿---
+
+- name: Verify NTP configuration
+  hosts:
+    - test-host1
+    - zabbix-node
+  become: true
+  vars_files:
+    - ../config/project-vars.env.yaml
+  roles:
+    - verify_ntp_config

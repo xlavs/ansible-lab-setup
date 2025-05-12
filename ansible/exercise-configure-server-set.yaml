@@ -3,8 +3,12 @@
 # Verify: ansible-playbook configure-server-set.yaml -u root -C -D
 # Apply:  ansible-playbook configure-server-set.yaml -u root
 
-- hosts: all
+- hosts: exercise
   gather_facts: false
+  become: true
+
+  vars_files:
+    - ../config/project-vars.env.yaml
 
 #  vars:
 

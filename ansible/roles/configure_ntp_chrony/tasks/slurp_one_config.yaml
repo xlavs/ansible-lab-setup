@@ -1,0 +1,9 @@
+﻿---
+- name: Slurp file "{{ ntp_file.item }}"
+  slurp:
+    src: "{{ ntp_file.item }}"
+  register: slurped_file
+
+- name: Append slurped result to ntp_config_slurped
+  set_fact:
+    ntp_config_slurped: "{{ ntp_config_slurped | default([]) + [ { 'path': ntp_file.item, 'content': slurped_file.content } ] }}"

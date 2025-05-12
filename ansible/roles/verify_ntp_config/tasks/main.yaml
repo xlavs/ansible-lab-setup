@@ -1,0 +1,124 @@
+﻿---
+
+- name: Set output path for NTP report
+  set_fact:
+    ntp_report_path: "{{ playbook_dir }}/../config/var/reports/{{ inventory_hostname }}/ntp.yaml"
+
+- name: Check if chrony is installed
+  stat:
+    path: /etc/chrony/chrony.conf
+  register: chrony_conf
+
+- name: Check if ntpd is installed
+  stat:
+    path: /etc/ntp.conf
+  register: ntp_conf
+
+- name: Check systemd-timesyncd config
+  stat:
+    path: /etc/systemd/timesyncd.conf
+  register: timesyncd_conf
+
+- name: Show detected NTP configuration source
+  debug:
+    msg: >-
+      {{
+        'chrony' if chrony_conf.stat.exists else (
+        'ntpd' if ntp_conf.stat.exists else (
+        'timesyncd' if timesyncd_conf.stat.exists else 'unknown'
+        ))
+      }}
+
+- name: Read chrony configuration (if present)
+  slurp:
+    src: /etc/chrony/chrony.conf
+  register: chrony_contents
+  when: chrony_conf.stat.exists
+
+- name: Read ntp.conf configuration (if present)
+  slurp:
+    src: /etc/ntp.conf
+  register: ntp_contents
+  when: ntp_conf.stat.exists
+
+- name: Read timesyncd.conf configuration (if present)
+  slurp:
+    src: /etc/systemd/timesyncd.conf
+  register: timesyncd_contents
+  when: timesyncd_conf.stat.exists
+
+- name: Show chrony config (decoded)
+  debug:
+    msg: "{{ chrony_contents['content'] | b64decode }}"
+  when: chrony_conf.stat.exists
+
+- name: Show ntp.conf config (decoded)
+  debug:
+    msg: "{{ ntp_contents['content'] | b64decode }}"
+  when: ntp_conf.stat.exists
+
+- name: Show timesyncd.conf config (decoded)
+  debug:
+    msg: "{{ timesyncd_contents['content'] | b64decode }}"
+  when: timesyncd_conf.stat.exists
+
+- name: Check chrony service status
+  service_facts:
+
+- name: Show chrony status
+  debug:
+    msg: "{{ ansible_facts.services['chronyd.service'] }}"
+  when: "'chronyd.service' in ansible_facts.services"
+
+- name: Show systemd-timesyncd status
+  debug:
+    msg: "{{ ansible_facts.services['systemd-timesyncd.service'] }}"
+  when: "'systemd-timesyncd.service' in ansible_facts.services"
+
+- name: Show ntpd status
+  debug:
+    msg: "{{ ansible_facts.services['ntp.service'] }}"
+  when: "'ntp.service' in ansible_facts.services"
+
+- name: Build NTP report dictionary
+  set_fact:
+    ntp_report:
+      host: "{{ inventory_hostname }}"
+      config_type: >-
+        {{
+          'chrony' if chrony_conf.stat.exists else (
+          'ntpd' if ntp_conf.stat.exists else (
+          'timesyncd' if timesyncd_conf.stat.exists else 'unknown'
+          ))
+        }}
+      config_contents: >-
+        {{
+          (chrony_contents.content | b64decode) if chrony_conf.stat.exists else
+          (ntp_contents.content | b64decode) if ntp_conf.stat.exists else
+          (timesyncd_contents.content | b64decode) if timesyncd_conf.stat.exists else
+          ''
+        }}
+      service_status: >-
+        {{
+          ansible_facts.services['chronyd.service'] if 'chronyd.service' in ansible_facts.services else
+          ansible_facts.services['ntp.service'] if 'ntp.service' in ansible_facts.services else
+          ansible_facts.services['systemd-timesyncd.service'] if 'systemd-timesyncd.service' in ansible_facts.services else
+          {}
+        }}
+
+- name: Ensure local report output directory exists
+  file:
+    path: "{{ playbook_dir }}/../config/var/reports/{{ inventory_hostname }}"
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+  run_once: false
+
+- name: Write NTP diagnostic report to controller
+  copy:
+    dest: "{{ playbook_dir }}/../config/var/reports/{{ inventory_hostname }}/ntp.yaml"
+    content: "{{ ntp_report | to_nice_yaml }}"
+    mode: '0644'
+  delegate_to: localhost
+  run_once: false
+

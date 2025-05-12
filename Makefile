@@ -29,3 +29,11 @@ download-zabbix-vhdx: ## Get zabbix server vhdx appliance
 
 unzip-zabbix-vhdx: ## Extract downloaded Zabbix appliance VHDX to Hyper-V disk path
 	unzip -n downloads/zabbix_appliance-7.2.6-vhdx.zip -d hyperv_disks
+
+# Internal functions to extract YAML values
+ADMIN_NAME := $(shell python3 -c "import yaml; print(yaml.safe_load(open('config/project-vars.env.yaml'))['admin_user']['name'])")
+ADMIN_EMAIL := $(shell python3 -c "import yaml; print(yaml.safe_load(open('config/project-vars.env.yaml'))['admin_user']['email'])")
+
+generate-admin-ssh: ## Generate SSH keypair for admin user
+	mkdir -p ansible/files/home/$(ADMIN_NAME)/ssh
+	ssh-keygen -t ed25519 -C "$(ADMIN_EMAIL)" -f ansible/files/home/$(ADMIN_NAME)/ssh/id_ed25519 -N ""

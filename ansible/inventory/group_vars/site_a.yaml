@@ -1,4 +1,6 @@
-﻿---
+﻿# ansible\inventory\group_vars\site_a.yaml
+
+---
 
 chrony_servers:
   - time.cloudflare.com

@@ -66,16 +66,11 @@
     enabled: yes
     state: started
 
-- name: Configure NTP servers
-  lineinfile:
-    path: /etc/chrony/chrony.conf
-    regexp: '^server '
-    line: "server {{ item }} iburst"
-    state: present
-    insertafter: '^#.*Use public servers from the pool'
-  loop: "{{ chrony_servers }}"
-
-- name: Restart chronyd to apply changes
-  service:
-    name: chronyd
-    state: restarted
+- name: Deploy managed chrony.conf from template
+  template:
+    src: chrony.conf.j2
+    dest: /etc/chrony/chrony.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart chronyd

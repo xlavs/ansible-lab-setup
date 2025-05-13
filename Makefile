@@ -37,3 +37,9 @@ ADMIN_EMAIL := $(shell python3 -c "import yaml; print(yaml.safe_load(open('confi
 generate-admin-ssh: ## Generate SSH keypair for admin user
 	mkdir -p ansible/files/home/$(ADMIN_NAME)/ssh
 	ssh-keygen -t ed25519 -C "$(ADMIN_EMAIL)" -f ansible/files/home/$(ADMIN_NAME)/ssh/id_ed25519 -N ""
+
+set-user-password: ## Prompt and save default admin user password (hashed)
+	@read -s -p "Enter default admin password: " PASS && echo && \
+	HASH=$$(openssl passwd -6 "$$PASS") && \
+	mkdir -p config/var && \
+	echo "admin_password_hash: \"$$HASH\"" > config/var/default-admin-password.yaml

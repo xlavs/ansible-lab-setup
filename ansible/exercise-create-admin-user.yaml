@@ -2,7 +2,10 @@
   hosts:
     - test-host1
   become: true
+
   vars_files:
     - ../config/project-vars.env.yaml
+    - ../config/var/default-admin-password.yaml
+
   roles:
     - configure_admin_user

@@ -5,6 +5,11 @@
     groups: admin
     append: yes
     create_home: yes
+    password: "{{ admin_password_hash }}"
+
+- name: Force password reset on first login (optional)
+  command: chage -d 0 {{ admin_user.name }}
+  when: admin_user.force_password_reset | default(false)
 
 - name: Add SSH key for admin user
   authorized_key:

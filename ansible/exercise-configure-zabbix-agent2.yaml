@@ -1,0 +1,20 @@
+﻿---
+
+- name: Install Zabbix Agent 2
+  hosts:
+    - test-host1
+
+  become: true
+
+  # collections:
+  #   - zabbix.zabbix
+
+  # Documentation: https://github.com/zabbix/ansible-collection/blob/main/roles/agent/README.md
+
+  roles:
+    - role: zabbix.zabbix.agent
+      vars:
+        agent_variant: 2
+        agent_param_server: "{{ zabbix_server_ip }}"
+        agent_param_serveractive: "{{ zabbix_server_ip }}"
+        zabbix_agent_hostname: "{{ inventory_hostname }}"

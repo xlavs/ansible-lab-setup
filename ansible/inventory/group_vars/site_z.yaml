@@ -5,3 +5,5 @@
 chrony_servers:
   - time.cloudflare.com
   - time.google.com
+
+zabbix_server_ip: 172.19.77.100

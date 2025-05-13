@@ -9,13 +9,22 @@
 
   vars_files:
     - ../config/project-vars.env.yaml
+    - ../config/var/default-admin-password.yaml
 
-#  vars:
+  vars:
+
+  # collections:
+  #   - zabbix.zabbix
 
   roles:
     - configure_admin_user
     - configure_ntp_crony
-    - configure_zabbix_agent2
+    - role: zabbix.zabbix.agent
+      vars:
+        agent_variant: 2
+        agent_param_server: "{{ zabbix_server_ip }}"
+        agent_param_serveractive: "{{ zabbix_server_ip }}"
+        zabbix_agent_hostname: "{{ inventory_hostname }}"
 
   tasks:
     # placeholder for custom, additional tasks

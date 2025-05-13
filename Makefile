@@ -13,7 +13,7 @@ help: ## Display this help message
 	| awk 'BEGIN {FS = ":.*?##"}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 ansible-ping-local: ## Run ansible ping example
-	cd ansible && ansible-playbook playbooks/ansible-ping-local.yaml
+	cd ansible && ansible-playbook ansible-ping-local.yaml
 
 ansible-galaxy-list: ## List installed Ansible Galaxy Collections
 	ansible-galaxy collection list

@@ -3,10 +3,7 @@
 
 ---
 
-- hosts: 
-    - zabbix-node
-    - site-a-host
-    - site-z-host
+- hosts: lab-hosts
 
   gather_facts: false
 

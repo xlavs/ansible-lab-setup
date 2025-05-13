@@ -14,6 +14,12 @@ hostname2
 hostname3
 hostname5
 
+[lab-hosts]
+zabbix-node
+site-a-host
+site-z-host
+#test-host1
+
 [lxd-hosts]
 site-a-host ansible_user=ubuntu
 site-z-host ansible_user=ubuntu

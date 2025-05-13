@@ -16,6 +16,7 @@ project-vars.env.yaml
 multipass-hosts.yaml
 hosts
 
+# Generated configuration data
 config/var/
 
 # ssh keys

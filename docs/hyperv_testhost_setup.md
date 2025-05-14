@@ -17,6 +17,19 @@ runcmd:
   - echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFy/uG6GOFYpjXFslP3TjM0CmxL1dbM0DPmJRwkvPKIF ubuntu@ansible-runner >> /home/ubuntu/.ssh/authorized_keys
 ```
 
+Then it should be possible to provision all necessary following provided example cmd script `scripts\multipass-create-testhost1.cmd`
+
+```
+@echo off
+REM -----------------------------------------------------------------------------
+REM scripts\multipass-create-testhost1.cmd Run Canonical Multipass to spin up
+REM testing host using cloud-init template with Ansible public key.
+REM -----------------------------------------------------------------------------
+
+REM Create test-host1
+multipass launch 24.04 --name test-host1 --cpus 2 --memory 2G --disk 20G --cloud-init config\multipass-host.yaml
+```
+
 Once done, You might be able to see all multipass-managed hosts:
 
 ```

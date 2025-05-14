@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Problem:
-# Zabbix appliance from 
-
 yum install -y tar gcc make openssl-devel bzip2-devel libffi-devel
 
 cd /usr/src

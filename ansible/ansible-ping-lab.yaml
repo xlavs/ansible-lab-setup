@@ -1,9 +1,10 @@
 # Run this with: 
-# ansible-playbook playbooks\ansible-ping-lab.yaml
+# ansible-playbook ansible-ping-lab.yaml
 
 ---
 
-- hosts: lab-hosts
+- name: "ping all lab_hosts"
+  hosts: lab_hosts
 
   gather_facts: false
 

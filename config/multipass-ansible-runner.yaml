@@ -1,10 +1,38 @@
 # config\multipass-ansible-runner.yaml
 
 package_update: true
+package_upgrade: true
+
 packages:
+  - coreutils
+  - findutils
+  - gawk
+  - jq
+  - tree
+  - wget
   - curl
+  - zip 
+  - unzip
+  - iputils-ping
+  - iputils-tracepath
+  - vim-full
+  - emacs-nox
   - sudo
   - git
+  - python3-pip
+  - ansible
+
+lxd:
+  init:
+    storage_backend: dir
+
+ansible:
+  install_method: apt
+  package_name: ansible
+  run_user: ubuntu
+  galaxy:
+    actions:
+      - ["ansible-galaxy", "collection", "install", "zabbix.zabbix"]
 
 write_files:
 - content: |
@@ -14,7 +42,7 @@ write_files:
     Then:
     cd /workspace
     nix-shell config/nix/shell.nix
-  path: /etc/motd
+  path: /home/ubuntu/nix-install.md
 
 runcmd:
   - [ mkdir, -p, /workspace ]

@@ -1,6 +1,16 @@
-﻿- name: Configure admin user
+﻿---
+
+# Verify: ansible-playbook exercise-create-admin-user.yaml -u root -C -D
+# Apply:  ansible-playbook exercise-create-admin-user.yaml -u root
+
+- name: Configure admin user
   hosts:
-    - test-host1
+    - hostname1
+    - hostname2
+    - hostname3
+    - hostname4
+    - hostname5
+
   become: true
 
   vars_files:

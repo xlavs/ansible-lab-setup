@@ -12,6 +12,10 @@ help: ## Display this help message
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| awk 'BEGIN {FS = ":.*?##"}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
+secure-ansible-cfg: ## save provided ansible.cfg in the safe location
+	cp /workspace/ansible/ansible.cfg-example /home/ubuntu/.ansible.cfg
+	chmod go= /home/ubuntu/.ansible.cfg
+
 ansible-ping-local: ## Run ansible ping example
 	cd ansible && ansible-playbook ansible-ping-local.yaml
 
@@ -27,7 +31,7 @@ list-downloads: ## List all downloads
 download-zabbix-vhdx: ## Get zabbix server vhdx appliance
 	cd downloads && wget https://cdn.zabbix.com/zabbix/appliances/stable/7.2/7.2.6/zabbix_appliance-7.2.6-vhdx.zip
 
-unzip-zabbix-vhdx: ## Extract downloaded Zabbix appliance VHDX to Hyper-V disk path
+unzip-zabbix-vhdx: ## Extract downloaded Zabbix appliance VHDX disk image
 	unzip -n downloads/zabbix_appliance-7.2.6-vhdx.zip -d hyperv_disks
 
 # Internal functions to extract YAML values

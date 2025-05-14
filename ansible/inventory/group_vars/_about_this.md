@@ -1,2 +1,0 @@
-# Host groups explained
-

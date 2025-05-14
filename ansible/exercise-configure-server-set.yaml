@@ -1,7 +1,7 @@
 ﻿---
 
-# Verify: ansible-playbook configure-server-set.yaml -u root -C -D
-# Apply:  ansible-playbook configure-server-set.yaml -u root
+# Verify: ansible-playbook exercise-configure-server-set.yaml -u root -C -D
+# Apply:  ansible-playbook exercise-configure-server-set.yaml -u root
 
 - hosts: exercise
   gather_facts: false

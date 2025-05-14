@@ -2,8 +2,14 @@
 
 - name: Verify NTP configuration
   hosts:
-    - test-host1
-    - zabbix-node
+    - hostname1
+    - hostname2
+    - hostname3
+    - hostname4
+    - hostname5
+    #- test-host1
+    #- zabbix-node
+
   become: true
   vars_files:
     - ../config/project-vars.env.yaml

@@ -1,5 +1,5 @@
 
-### Zabbix Server vhdx
+### Zabbix Server appliance vhdx
 
 Site: https://www.zabbix.com/download_appliance
 Download: https://cdn.zabbix.com/zabbix/appliances/stable/7.2/7.2.6/zabbix_appliance-7.2.6-vhdx.zip

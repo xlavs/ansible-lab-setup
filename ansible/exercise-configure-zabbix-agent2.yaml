@@ -1,8 +1,15 @@
 ﻿---
 
+# Verify: ansible-playbook exercise-configure-zabbix-agent2.yaml -u root -C -D
+# Apply:  ansible-playbook exercise-configure-zabbix-agent2.yaml -u root
+
 - name: Install Zabbix Agent 2
   hosts:
-    - test-host1
+    - hostname1
+    - hostname2
+    - hostname3
+    - hostname4
+    - hostname5
 
   become: true
 

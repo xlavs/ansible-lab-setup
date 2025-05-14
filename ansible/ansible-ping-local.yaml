@@ -1,5 +1,5 @@
-﻿# run this with:
-# wsl -d NixOS nix-shell  ~/ansible-shell/shell.nix --run "ansible-playbook ansible-ping.yaml"
+﻿# Run this with:
+# ansible-playbook ansible-ping-local.yaml
 
 ---
 

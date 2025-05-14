@@ -5,24 +5,36 @@ hostname3
 hostname4
 hostname5
 
-[site-a]
+[exercise]
 hostname1
-hostname1
+hostname2
+hostname3
+hostname4
+hostname5
 
-[site-z]
+[site_a]
+hostname1
+hostname4
+
+[site_z]
 hostname2
 hostname3
 hostname5
 
-[lab-hosts]
-zabbix-node
-site-a-host
-site-z-host
+[lab_hosts]
+#zabbix-node
+#hostname1
+#hostname2
+#hostname3
+#hostname4
+#hostname5
+#site-a-host
+#site-z-host
 #test-host1
 
-[lxd-hosts]
-site-a-host ansible_user=ubuntu
-site-z-host ansible_user=ubuntu
+[lxd_hosts]
+#site-a-host ansible_user=ubuntu
+#site-z-host ansible_user=ubuntu
 
 [zabbix]
-zabbix-node ansible_user=root ansible_python_interpreter=/usr/local/bin/python3.11
+#zabbix-node ansible_user=root ansible_python_interpreter=/usr/local/bin/python3.11

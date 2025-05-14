@@ -1,4 +1,5 @@
 ﻿---
+
 - name: Update /etc/hosts locally with Multipass host IPs
   hosts: localhost
   connection: local

@@ -12,7 +12,7 @@ To run and test the following exercises You need to set up local lab environment
 
 Once Your target hosts are resolving, ansible ssh access works and all project-related settings in ./config/ and ./ansible/inventory are set, it should be possible to run `ansible\ansible-ping-lab.yaml`
 
-All the exercize playbooks and related roles are in `./ansible` and `ansible/roles`
+All the exercise playbooks and related roles are in `./ansible` and `ansible/roles`
 
 ```bash
 ubuntu@ansible-runner:/workspace/ansible$ ls -l | grep exercise
